@@ -17,6 +17,9 @@
                                 <li>
                                     <NuxtLink to="/contact">Contact</NuxtLink>
                                 </li>
+                                <li>
+                                    <NuxtLink to="/create">Create</NuxtLink>
+                                </li>
                             </ul>
                         </div>
                 </div>
