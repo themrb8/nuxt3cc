@@ -20,6 +20,18 @@
                                 <li>
                                     <NuxtLink to="/create">Create</NuxtLink>
                                 </li>
+                                <li>
+                                    <NuxtLink to="/login">Login</NuxtLink>
+                                </li>
+                                <li>
+                                    <NuxtLink to="/register">Register</NuxtLink>
+                                </li>
+                                <li>
+                                    <NuxtLink to="/my-info">My-info</NuxtLink>
+                                </li>
+                                <li>
+                                    <a href="#" @click.prevent="logout">Logout</a>
+                                </li>
                             </ul>
                         </div>
                 </div>
@@ -36,4 +48,17 @@
 
 <script setup>
 const title = useState('title', ()  => 'Nuxt Three Blog')
+const { $apiFetch } = useNuxtApp()
+
+async function logout() {
+    try {
+        await $apiFetch('/logout', {
+            method: 'POST',
+        })
+    } catch (err) {
+        console.log(err.data)
+    } finally {
+        window.location.pathname = '/'
+    }
+}
 </script>
