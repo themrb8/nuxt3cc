@@ -63,6 +63,9 @@
   </template>
   
 <script setup>
+definePageMeta({
+    middleware: ['guest'],
+})
   const title = useState('title')
   const router = useRouter()
   const name = ref('')
@@ -88,6 +91,11 @@
           password_confirmation: passwordConfirm.value,
         },
       })
+
+      const user = await $apiFetch('/api/user')
+      const { setUser } = useAuth()
+      setUser(user.name)
+
       alert('Registered')
       window.location.pathname = '/my-info'
     } catch (err) {

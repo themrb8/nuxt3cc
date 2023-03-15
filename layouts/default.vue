@@ -7,7 +7,8 @@
                             <NuxtLink to="/">Logo</NuxtLink>
                         </div>
                         <div>
-                            <ul class="flex space-x-12">
+                            <ClientOnly>
+                                <ul class="flex space-x-12">
                                 <li>
                                     <NuxtLink to="/">Home</NuxtLink>
                                 </li>
@@ -17,22 +18,24 @@
                                 <li>
                                     <NuxtLink to="/contact">Contact</NuxtLink>
                                 </li>
-                                <li>
-                                    <NuxtLink to="/create">Create</NuxtLink>
-                                </li>
-                                <li>
+                                <li v-if="!isLoggedIn">
                                     <NuxtLink to="/login">Login</NuxtLink>
                                 </li>
-                                <li>
+                                <li v-if="!isLoggedIn">
                                     <NuxtLink to="/register">Register</NuxtLink>
                                 </li>
-                                <li>
+                                <li v-if="isLoggedIn">
+                                    <NuxtLink to="/create">Create</NuxtLink>
+                                </li>
+                                <li v-if="isLoggedIn">
                                     <NuxtLink to="/my-info">My-info</NuxtLink>
                                 </li>
-                                <li>
+                                <li v-if="isLoggedIn">
                                     <a href="#" @click.prevent="logout">Logout</a>
                                 </li>
+                                <li>{{ getUser()?.name }}</li>
                             </ul>
+                            </ClientOnly>
                         </div>
                 </div>
             </nav>
@@ -50,6 +53,8 @@
 const title = useState('title', ()  => 'Nuxt Three Blog')
 const { $apiFetch } = useNuxtApp()
 
+const { removeUser, isLoggedIn, getUser } = useAuth()
+
 async function logout() {
     try {
         await $apiFetch('/logout', {
@@ -58,6 +63,7 @@ async function logout() {
     } catch (err) {
         console.log(err.data)
     } finally {
+        removeUser()
         window.location.pathname = '/'
     }
 }

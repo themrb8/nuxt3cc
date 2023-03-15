@@ -21,6 +21,7 @@
             <div>
                 <label for="password" class="block font-semibold">Password</label>
                 <input
+                type="password"
                 v-model="password"
                 id="password"
                 class="px-2 py-2 w-full shadow rounded mt-2"
@@ -38,6 +39,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['guest'],
+})
     const title = useState('title')
 
     const email = ref('')
@@ -63,6 +67,10 @@
                     password: password.value,
                 },
             })
+
+            const user = await $apiFetch('/api/user')
+            const { setUser } = useAuth()
+            setUser(user.name)
             window.location.pathname = '/my-info'
         } catch (err) {
             console.log(err.data)

@@ -21,6 +21,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['auth'],
+})
 const title = useState('title')
 const user = ref(null)
 const posts = ref([])
